@@ -28,12 +28,17 @@ const saveContact = async()=>{
 }
 
 const addContact = async()=>{
-    const name = await rl.question('Enter a Name for Contact ')
-    const lName = await rl.question('Enter a LastName for Contact ')
-    const tel = await rl.question('Enter a Phone Number for Contact ')
+    const name = await rl.question('Enter a Name for Contact : ')
+    const lName = await rl.question('Enter a LastName for Contact :  ')
+    const tel = await rl.question('Enter a Phone Number for Contact :  ')
     let contact={id:contacts.length,name:name,lName:lName,tel:tel}
     contacts.push(contact)
     await saveContact()
+}
+
+const delContact = async() =>{
+    const id = parseInt(await rl.question("Enter a Contact id : "))
+    contacts.splice(contacts.indexOf(contacts.find(contact=>contact.id===id)),1)
 }
 const quit =()=>{
     rl.close()
@@ -42,9 +47,10 @@ const quit =()=>{
 const show = ()=>{
     console.log('--- Show Contacts ---')
     contacts.map(contact=>console.log(contact))
+    saveContact()
 }
 const help =async ()=>{
-    let qs = await rl.question("q : qiut\nn : new Contact\ns : show Contacts ")
+    let qs = await rl.question("q : qiut\nn : new Contact\ns : show Contacts\ndelete Contact d ")
     if(qs ==='n')
     {
         await addContact()
@@ -52,6 +58,10 @@ const help =async ()=>{
     else if(qs === 's')
     {
        show();
+    }
+    else if(qs ==='d')
+    {
+        await delContact()
     }
     else
     {
